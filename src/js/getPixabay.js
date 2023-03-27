@@ -3,10 +3,9 @@ import axios from 'axios';
 
 
 const BASE_URL = 'https://pixabay.com/api/?';
-// const SEARCH_ON = "dog blu";
-const SEARCH_ON = searchPictures(query = '') {
-    if(query.trim()) searchQuery.query = query;
+// const SEARCH_ON='';
 
+export function fetchIMG(photo){
 axios
   .get(`${BASE_URL}`, {
     params: {
@@ -16,27 +15,25 @@ axios
       orientation: 'horizontal',
       timeout: 5000,
       safesearch: 'true',
+      page: 1,
+      per_page: 40,
     },
     headers: {
       'Content-Type': 'application/json',
-
-
     },
-    responseType: 'json',
-    // onUploadProgress: function (progressEvent) {
-    //   // делаем тут что угодно...   позволяет обрабатывать события прогресса для загрузки данных
-    // },
+
   })
   .then(response => {
 
     console.log(response.data);
-
-
+        const loadHits = response.data.hits.length;
+    const totalHits = response.data.totalHits;
     return response.data
   })
   .catch(error => {
     console.log(error.toJSON);
   });
+}
 
 // function fetchIMG(photo) {
 //   fetch(
@@ -53,4 +50,5 @@ axios
 // }
 
 //***////*** */ */
+
 
