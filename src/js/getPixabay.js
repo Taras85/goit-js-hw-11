@@ -1,54 +1,33 @@
-
 import axios from 'axios';
 
+export function getImages(searchQuery, page, PAGINATION) {
+  const API_KEY = '31705200-2fa5435eb18f6178a2b05a0f8';
+  const BASE_URL = 'https://pixabay.com/api/';
+  //   const URL = `${BASE_URL}?key=${API_KEY}&q=${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=${PAGINATION}`;
 
-const BASE_URL = 'https://pixabay.com/api/?';
-// const SEARCH_ON='';
+  //  console.log(`${BASE_URL}`)
 
-export function fetchIMG(photo){
-axios
-  .get(`${BASE_URL}`, {
+  return axios.get(`${BASE_URL}`, {
     params: {
       key: '31705200-2fa5435eb18f6178a2b05a0f8',
-      q: SEARCH_ON,
+      q: searchQuery,
       image_type: 'photo',
       orientation: 'horizontal',
-      timeout: 5000,
+      timeout: 2000,
       safesearch: 'true',
-      page: 1,
-      per_page: 40,
+      page: page,
+      per_page: PAGINATION,
     },
     headers: {
       'Content-Type': 'application/json',
     },
-
-  })
-  .then(response => {
-
-    console.log(response.data);
-        const loadHits = response.data.hits.length;
-    const totalHits = response.data.totalHits;
-    return response.data
-  })
-  .catch(error => {
-    console.log(error.toJSON);
   });
 }
 
-// function fetchIMG(photo) {
-//   fetch(
-//     `https://pixabay.com/api/?key=31705200-2fa5435eb18f6178a2b05a0f8&q=yellow+flowers&image_type=photo`
-//   )
-//     .then(response => {
-//       if (!response.ok) {
-//         throw Error(response.status);
-//       }
-//     })
-//     .then(imeges => {
-//       console.log(imeges);
-//     });
-// }
+// function addObserve() {
+//   const lastCard = document.querySelector('.photo-card:last-child');
 
-//***////*** */ */
-
-
+//   if (lastCard) {
+//     infiniteObserver.observe(lastCard);
+//   }
+// }VSHDeveloper
