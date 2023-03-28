@@ -1,4 +1,4 @@
-export function createPhotoCardMarkup({
+export function createCard({
   webformatURL,
   largeImageURL,
   tags,
