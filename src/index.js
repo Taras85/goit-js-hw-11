@@ -96,7 +96,7 @@ async function searchFormSubmit(event) {
     messageEnd.classList.add('is-hidden');
     gallery.innerHTML = galleryMarkup;
 
-    totalImages = response.data.hits.length;
+    // totalImages = response.data.hits.length;
 
     imageObserver.observe(guard);
 
