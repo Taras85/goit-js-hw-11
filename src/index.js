@@ -54,7 +54,7 @@ function onLoad(entries, observer) {
           }
         });
       } catch (error) {
-        Notify.failure(`${error}`);
+        Notiflix.Notify.failure(`${error}`);
         console.log(error);
       }
     }
@@ -63,6 +63,7 @@ function onLoad(entries, observer) {
 
 let page = 1;
 const PAGINATION = 40;
+let searchQuery='';
 
 searchForm.addEventListener('submit', searchFormSubmit);
 
