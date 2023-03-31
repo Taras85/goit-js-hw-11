@@ -2,7 +2,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { getImages } from './js/getPixabay';
 import { createCard } from './js/markupPhoto';
-// import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
 import Notiflix from 'notiflix';
 Notiflix.Notify.init({
   width: '30%',
@@ -16,7 +16,6 @@ Notiflix.Notify.init({
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const messageEnd = document.querySelector('.message');
-
 
 const guard = document.querySelector('.galleryObserver');
 const options = {
@@ -40,9 +39,8 @@ function onLoad(entries, observer) {
             .join('');
           gallery.insertAdjacentHTML('beforeend', galleryMarkup);
 
-          // totalImages = photos.data.hits.length;
-          console.log(page * PAGINATION >= photos.data.totalHits);
-          console.log(page * PAGINATION);
+          // console.log(page * PAGINATION >= photos.data.totalHits);
+          // console.log(page * PAGINATION);
           if (page * PAGINATION >= photos.data.totalHits) {
             messageEnd.classList.remove('is-hidden');
             Notiflix.Notify.failure;
@@ -60,7 +58,7 @@ function onLoad(entries, observer) {
 
 let page = 1;
 const PAGINATION = 40;
-let searchQuery='';
+let searchQuery = '';
 let lightbox = {};
 
 searchForm.addEventListener('submit', searchFormSubmit);
@@ -100,14 +98,7 @@ async function searchFormSubmit(event) {
 
     imageObserver.observe(guard);
 
-    console.log(page * PAGINATION);
-
-    // if (page * PAGINATION >= response.data.totalHits) {
-    //   messageEnd.classList.remove('is-hidden');
-    //   Notiflix.Notify.failure(
-    //     "We're sorry, but you've reached the end of search results. Вибачте, але ви досягли кінця результатів пошуку."
-    //   );
-    // }
+    // console.log(page * PAGINATION);
   } catch (error) {
     Notiflix.Notify.failure(`${error}`);
     console.log(error);
