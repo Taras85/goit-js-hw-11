@@ -16,10 +16,7 @@ Notiflix.Notify.init({
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const messageEnd = document.querySelector('.message');
-// const loadMoreBtn = document.querySelector('.load-more');
-// const messageEl = document.querySelector('.message');
-// const scrollUpBtn = document.querySelector('.scroll-up-btn');
-// const response={};
+
 
 const guard = document.querySelector('.galleryObserver');
 const options = {
@@ -64,6 +61,7 @@ function onLoad(entries, observer) {
 let page = 1;
 const PAGINATION = 40;
 let searchQuery='';
+let lightbox = {};
 
 searchForm.addEventListener('submit', searchFormSubmit);
 
