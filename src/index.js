@@ -6,10 +6,10 @@ import { createCard } from './js/markupPhoto';
 import Notiflix from 'notiflix';
 Notiflix.Notify.init({
   width: '30%',
-  position: 'center-center',
+  // position: 'center-center',
   fontSize: '16px',
   timeout: 2000,
-  backOverlay: true,
+  // backOverlay: true,
   messageMaxLength: 150,
 });
 
@@ -26,22 +26,24 @@ const options = {
 const imageObserver = new IntersectionObserver(onLoad, options);
 
 function onLoad(entries, observer) {
-  messageEnd.classList.add('is-hidden');
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       // console.log(entry.isIntersecting);
       page += 1;
+
       try {
         const response = getImages(searchQuery, page, PAGINATION);
         response.then(photos => {
           const galleryMarkup = photos.data.hits
             .map(img => createCard(img))
             .join('');
+
           gallery.insertAdjacentHTML('beforeend', galleryMarkup);
 
-          // console.log(page * PAGINATION >= photos.data.totalHits);
-          // console.log(page * PAGINATION);
-          if (page * PAGINATION >= photos.data.totalHits) {
+          if (
+            page * PAGINATION >= photos.data.totalHits ||
+            photos.data.totalHits < PAGINATION
+          ) {
             messageEnd.classList.remove('is-hidden');
             Notiflix.Notify.failure;
             ("We're sorry, but you've reached the end of search results. Вибачте, але ви досягли кінця результатів пошуку.");
@@ -60,11 +62,11 @@ let page = 1;
 const PAGINATION = 40;
 let searchQuery = '';
 let lightbox = {};
+messageEnd.classList.add('is-hidden');
 
 searchForm.addEventListener('submit', searchFormSubmit);
 
 async function searchFormSubmit(event) {
-  messageEnd.classList.add('is-hidden');
   event.preventDefault();
 
   page = 1;
@@ -77,6 +79,7 @@ async function searchFormSubmit(event) {
     const response = await getImages(searchQuery, page, PAGINATION);
 
     if (response.data.hits.length === 0) {
+      messageEnd.classList.add('is-hidden');
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again. Вибачте, немає зображень, які відповідають вашому пошуковому запиту. Будь ласка спробуйте ще раз.'
       );
@@ -93,11 +96,19 @@ async function searchFormSubmit(event) {
       .join('');
     messageEnd.classList.add('is-hidden');
     gallery.innerHTML = galleryMarkup;
-
-    // totalImages = response.data.hits.length;
-
+    messageEnd.classList.add('is-hidden');
+    if (
+      page * PAGINATION >= response.data.totalHits ||
+      response.data.totalHits < PAGINATION
+    ) {
+      console.log(response.data.totalHits);
+      // console.log(response.data.totalHits);
+      // messageEnd.classList.remove('is-hidden');
+      messageEnd.classList.add('is-hidden');
+      Notiflix.Notify.failure;
+      ("We're sorry, but you've reached the end of search results. Вибачте, але ви досягли кінця результатів пошуку.");
+    }
     imageObserver.observe(guard);
-
     // console.log(page * PAGINATION);
   } catch (error) {
     Notiflix.Notify.failure(`${error}`);
